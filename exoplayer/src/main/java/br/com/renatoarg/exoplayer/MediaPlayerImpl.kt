@@ -14,10 +14,9 @@ import com.google.android.exoplayer2.source.ExtractorMediaSource
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.util.Util
 import okhttp3.OkHttpClient
-import timber.log.Timber
 
 
-class MediaPlayerImpl() : MediaPlayer {
+class MediaPlayerImpl : MediaPlayer {
 
     companion object {
         private const val TAG = "MediaPlayerTag"
@@ -29,7 +28,6 @@ class MediaPlayerImpl() : MediaPlayer {
     private lateinit var stateBuilder: PlaybackStateCompat.Builder
 
     override fun play(url: String) {
-        Timber.d("play:")
 
         val userAgent = Util.getUserAgent(context, "ExoPlayerTest")
 
@@ -40,16 +38,14 @@ class MediaPlayerImpl() : MediaPlayer {
                 null
             )
         )
-            .setExtractorsFactory(DefaultExtractorsFactory())
-            .createMediaSource(Uri.parse(url))
+        .setExtractorsFactory(DefaultExtractorsFactory())
+        .createMediaSource(Uri.parse(url))
         exoPlayer.prepare(mediaSource)
         exoPlayer.playWhenReady = true
     }
 
     override fun getPlayerImpl(context: Context): ExoPlayer {
-        Timber.d("getPlayerImpl:")
         this.context = context
-
         initializePlayer()
         initializeMediaSession()
         return exoPlayer
@@ -65,7 +61,6 @@ class MediaPlayerImpl() : MediaPlayer {
     }
 
     private fun initializePlayer() {
-        Timber.d("initializePlayer:")
 
         val trackSelector = DefaultTrackSelector()
         val loadControl = DefaultLoadControl()
@@ -76,10 +71,10 @@ class MediaPlayerImpl() : MediaPlayer {
 
     private fun initializeMediaSession() {
         mediaSession = MediaSessionCompat(context, TAG)
-        mediaSession.setFlags(
-            MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or
-                    MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS
-        )
+//        mediaSession.setFlags(
+//            MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or
+//                    MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS
+//        )
         mediaSession.setMediaButtonReceiver(null)
 
         stateBuilder = PlaybackStateCompat.Builder()
@@ -103,14 +98,10 @@ class MediaPlayerImpl() : MediaPlayer {
         private val SEEK_WINDOW_MILLIS = 10000
 
         override fun onPlay() {
-            Timber.d("onPlay 2:")
             exoPlayer.playWhenReady = true
-
         }
 
         override fun onPause() {
-            Timber.d("onPause:")
-
             exoPlayer.playWhenReady = false
         }
 

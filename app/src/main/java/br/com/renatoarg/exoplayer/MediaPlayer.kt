@@ -5,11 +5,11 @@ import com.google.android.exoplayer2.ExoPlayer
 
 interface MediaPlayer {
 
-  fun play(url: String)
+    fun play(url: String)
 
-  fun getPlayerImpl(context: Context): ExoPlayer
+    fun getPlayerImpl(context: Context): ExoPlayer
 
-  fun releasePlayer()
+    fun releasePlayer()
 
-  fun setMediaSessionState(isActive: Boolean)
+    fun setMediaSessionState(isActive: Boolean)
 }
