@@ -3,5 +3,6 @@
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">file-examples.com</domain>
         <domain includeSubdomains="true">examples.com</domain>
+        <domain includeSubdomains="true">sylvaniaalabama.com</domain>
     </domain-config>
 </network-security-config>
