@@ -59,23 +59,27 @@ class MyPlayerService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         Timber.d("onStartCommand:")
         intent?.let {
+            var meditation = it.getParcelableExtra(MEDITATIONS.MEDITATION) as Meditation
             when(::currentMeditation.isInitialized) {
                 true -> {
                     Timber.d("currentMediation initialized:")
-                    if (currentMeditation == it.getParcelableExtra(MEDITATIONS.MEDITATION) as Meditation) {
-                        Timber.d("MEDIA ${currentMeditation.title} (SAME MEDIA):")
-                    } else {
-                        Timber.d("MEDIA ${(it.getParcelableExtra(MEDITATIONS.MEDITATION) as Meditation).title} (DIFFERENT MEDIA):")
-                        this.player.stop()
-                        this.player.release()
-                        this.playerNotificationManager.setPlayer(null)
-                        playMedia(it.getParcelableExtra(MEDITATIONS.MEDITATION)!!)
+                    meditation?.let {
+                        if (currentMeditation == meditation) {
+                            Timber.d("MEDIA ${currentMeditation.title} (SAME MEDIA):")
+                        } else {
+                            Timber.d("MEDIA ${meditation.title} (DIFFERENT MEDIA):")
+                            this.player.stop()
+                            this.player.release()
+                            this.playerNotificationManager.setPlayer(null)
+                            playMedia(meditation)
+                        }
                     }
-
                 }
                 false -> {
                     Timber.d("currentMediation NOT initialized:")
-                    playMedia(it.getParcelableExtra(MEDITATIONS.MEDITATION)!!)
+                    meditation?.let {
+                        playMedia(meditation)
+                    }
                 }
             }
         }
